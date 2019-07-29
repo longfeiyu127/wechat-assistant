@@ -4,6 +4,8 @@ module.exports = {
   DEFAULTBOT: '0', // 默认机器人 0 天行机器人 1 天行对接的图灵机器人 2 图灵机器人
   TULINGKEY: '', //图灵机器人KEY
   TXAPIKEY: '762be789103e1ae7b65573f8d4fc0df6',// 必填，天行数据key，目前贡献的是我个人的，建议申请自己的天行数据key，可以对机器人个性化定制
+  YDAPPKey: '2fb777ed3cad07d2',// 必填，有道智云应用ID，仅供测试，建议自行申请
+  YDAPPID: 'xjHRvaJ8upU8vcr0qL6h1NtdhW1Z4EVJ',// 必填，有道智云应用密钥，仅供测试，建议自行申请
   /**
    * 每日说定时任务（支持多人）
    * name:要发送好友的昵称 （注：不是微信号！不是微信号！不是微信号！）

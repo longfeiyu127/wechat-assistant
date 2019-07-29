@@ -38,6 +38,9 @@ async function dispatchEventContent(eName, msg) {
     case 'rkl':
       content = await api.getRkl(msg);
       break;
+    case 'translate':
+      content = await api.getTranslate(msg);
+      break;
     default:
       break;
   }

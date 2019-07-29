@@ -1,6 +1,8 @@
 const cheerio = require('cheerio');
 const { req } = require('./superagent');
 const apiConfig = require('./config');
+const utils = require('./utils');
+const sha256 = require('js-sha256')
 const config = require('../../wechat.config');
 const crypto = require('crypto');
 
@@ -492,6 +494,46 @@ async function getRkl() {
     console.log('获取天行绕口令失败', error);
   }
 }
+/**
+ * 有道翻译
+ */
+const getTranslate = async (q) => {
+  const { YDAPPKey: appKey, YDAPPID: appID } = config
+  const from = 'zh-CHS'
+  const to = 'en'
+  const salt = utils.guid()
+  const input = utils.getInput(q)
+  const curtime = Math.round(new Date().getTime() / 1000)
+  const sign = sha256(appKey + input + salt + curtime + appID)
+  const query = {
+    q,
+    from,
+    to,
+    appKey,
+    salt,
+    curtime,
+    sign,
+    signType: 'v3'
+  }
+  try {
+    let option = {
+      method: 'GET',
+      url: apiConfig.YD,
+      params: query
+    };
+    let res = await req(option);
+    const { data } = parseBody(res)
+    console.log(data)
+    if (data.query && data.translation[0]) {
+      return data.translation[0]
+    } else {
+      return q
+    }
+  } catch (error) {
+    console.log('获取有道翻译失败', error);
+  }
+}
+
 module.exports = {
   getOne,
   getResByTXTL,
@@ -511,5 +553,6 @@ module.exports = {
   getLunar,
   getGoldReply,
   getXhy,
-  getRkl
+  getRkl,
+  getTranslate
 };
